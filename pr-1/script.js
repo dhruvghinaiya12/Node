@@ -1,15 +1,13 @@
 const handleForm = async (e) => {
     e.preventDefault(); 
     
-    const taskName = document.getElementById('taskName').value;
-    const description = document.getElementById('description').value;
-    const status = document.getElementById('status').value;
+    const taskData = {
+        taskName: document.getElementById('taskName').value,
+        description: document.getElementById('description').value,
+        status: document.getElementById('status').value
+    };
 
-    await axios.post('http://localhost:4042/', {
-        taskName,
-        description,
-        status
-    });
+    await axios.post('http://localhost:4042/', taskData);
 
     fetchTasks(); 
     taskForm.reset();
