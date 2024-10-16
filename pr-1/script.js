@@ -1,5 +1,7 @@
+let id = null;
+
 const handleForm = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     
     const taskData = {
         taskName: document.getElementById('taskName').value,
@@ -7,18 +9,35 @@ const handleForm = async (e) => {
         status: document.getElementById('status').value
     };
 
-    await axios.post('http://localhost:4042/', taskData);
+    if (id === null) {
+        await axios.post('http://localhost:4042/', taskData);
+    } else {
+        await axios.patch(`http://localhost:4042/${id}`, taskData);
+        id = null;
+        document.getElementById('taskName').removeAttribute('readonly');
+    }
 
-    fetchTasks(); 
+    fetchTasks();
     taskForm.reset();
 };
 
 document.getElementById("taskForm").addEventListener('submit', handleForm);
 
+// Update tasks list
+const editTask = (task) => {
+    document.getElementById('taskName').value = task.taskName;
+    document.getElementById('description').value = task.description;
+    document.getElementById('status').value = task.status;
+
+    id = task._id;
+    document.getElementById('taskName').setAttribute('readonly', 'readonly');
+    document.getElementById('submitBtn').textContent = "Update Task";
+};
+
 const fetchTasks = async () => {
-    const response = await axios.get('http://localhost:4042/'); 
+    const response = await axios.get('http://localhost:4042/');
     document.getElementById('tasksList').innerHTML = '';
-    response.data.map(task => {
+    response.data.forEach(task => {
         document.getElementById('tasksList').innerHTML += `
             <div class="card mb-3" id="task-${task._id}">
                 <div class="card-body">
@@ -26,22 +45,21 @@ const fetchTasks = async () => {
                     <p class="card-text"><strong>Description:</strong> ${task.description}</p>
                     <p class="card-text"><strong>Status:</strong> ${task.status}</p>
                     <button id="delete-btn-${task._id}" class="btn btn-danger">Delete</button>
+                    <button id="edit-btn-${task._id}" class="btn btn-warning">Edit</button>
                 </div>
             </div>
         `;
     });
 
     response.data.forEach(task => {
-        const deleteButton = document.getElementById(`delete-btn-${task._id}`);
-        deleteButton.addEventListener('click', () => {
-            deleteTask(task._id);
-        });
+        document.getElementById(`delete-btn-${task._id}`).addEventListener('click', () => deleteTask(task._id));
+        document.getElementById(`edit-btn-${task._id}`).addEventListener('click', () => editTask(task));
     });
 };
 
 const deleteTask = async (taskId) => {
     await axios.delete(`http://localhost:4042/${taskId}`);
-    fetchTasks(); 
+    fetchTasks();
 };
 
 fetchTasks();

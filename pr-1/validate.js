@@ -1,4 +1,3 @@
-// middleware/validateTask.js
 const validateTask = (req, res, next) => {
     const { taskName, status,description } = req.body;
     
