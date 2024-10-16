@@ -1,4 +1,3 @@
-// models/Task.js
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
@@ -7,7 +6,6 @@ const taskSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'in-progress', 'completed'],
-        default: 'pending',
     }
 });
 
