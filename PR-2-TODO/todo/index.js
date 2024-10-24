@@ -26,51 +26,48 @@ app.post('/addtodo', (req, res) => {
     id: ++counter 
   };
   initialTodo.push(newTodo);
-  res.status(200).json(newTodo);
+  res.send(newTodo);
 });
 
 app.get('/todo/:id', (req, res) => {
   let { id } = req.params;
-  id = Number(id);
-  const found = initialTodo.find(todo => todo.id === id);
-  res.status(200).json(found);
+  const found = initialTodo.find(todo => todo.id == id);
+  res.send(found);
 });
 
 app.delete('/delete/:id', (req, res) => {
   let { id } = req.params;
-  id = Number(id);
-  const index = initialTodo.findIndex(todo => todo.id === id);
-  if (index !== -1) {
-    let remove = initialTodo.splice(index, 1)[0];
-    res.status(200).json({ deletedTodo: remove, todos: initialTodo });
+  const Delete = initialTodo.find(todo => todo.id == id);
+  if (Delete) {
+    initialTodo.filter(todo => todo.id != id);
+    res.send({ deletedTodo:Delete, todos: initialTodo });
   } else {
-    res.status(404).json({ message: `Todo with ID ${id} not found` });
+    res.send({ message: `Todo with ID ${id} not found` });
   }
 });
 
-app.patch('/update/:id', (req, res) => {
+
+app.patch("/update/:id", (req, res) => {
   let { id } = req.params;
-  id = Number(id);
-  const index = initialTodo.findIndex(todo => todo.id === id);
-  if (index !== -1) {
-    const update = { ...initialTodo[index], ...req.body };
-    initialTodo[index] = update;
-    res.status(200).json(update);
-  } else {
-    res.status(404).json({ message: `Todo with ID ${id} not found` });
-  }
+  const data = initialTodo.map((ele) =>
+    ele.id == id ? { ...ele, ...req.body } : ele
+  );
+  initialTodo = data;
+  const updatedTodo = initialTodo.find(todo => todo.id == id);
+    res.send(updatedTodo);  
 });
+
 
 app.get('/findbystatus', (req, res) => {
   let { isCompleted } = req.query;
   if (isCompleted === 'true') {
     const TrueTodo = initialTodo.filter(todo => todo.isCompleted === true);
-    res.status(200).json(TrueTodo);
+    res.send(TrueTodo);
   } else if (isCompleted === 'false') {
     const FalseTodo = initialTodo.filter(todo => todo.isCompleted === false);
-    res.status(200).json(FalseTodo);
+    res.send(FalseTodo);
   } else {
-    res.status(400).json({ message: "Invalid query parameter." });
+    res.send({ message: "Invalid query parameter." });
   }
 });
 
