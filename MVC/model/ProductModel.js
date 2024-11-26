@@ -4,7 +4,6 @@ const productSchema=new mongoose.Schema({
     title:String,
     price:Number,
     image:String,
-    userId:String,
 })
 const Product=mongoose.model("product",productSchema)
 
