@@ -6,10 +6,11 @@ const {
   UpdateProduct,
   DeleteProduct,
 } = require("../controller/ProductController");
+const upload = require("../utils/imageUpload");
 const ProductRouter = Router();
 
 ProductRouter.get("/", GetProduct);
-ProductRouter.post("/", CreateProduct);
+ProductRouter.post("/",upload.single(" image"), CreateProduct);
 ProductRouter.get("/:productId", GetProductById);
 ProductRouter.patch("/:productId", UpdateProduct)
 ProductRouter.delete("/:productId", DeleteProduct);

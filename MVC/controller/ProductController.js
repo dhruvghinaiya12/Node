@@ -2,6 +2,8 @@ const Product = require("../model/ProductModel")
 
 // create a new product
 const CreateProduct=async(req,res)=>{
+    console.log("request",req.file);
+    
     try {
         let data =await Product.create(req.body)
         res.status(201).send(data)
