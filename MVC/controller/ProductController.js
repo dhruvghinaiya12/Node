@@ -3,6 +3,9 @@ const Product = require("../model/ProductModel")
 // create a new product
 const CreateProduct=async(req,res)=>{
     console.log("request",req.file);
+    if(req.file){
+        req.body.image=req.file.path;
+    }
     
     try {
         let data =await Product.create(req.body)
@@ -26,7 +29,7 @@ const GetProduct=async(req,res)=>{
 const GetProductById=async(req,res)=>{
     try {
         let {productId}=req.params
-        let data=await Product.find({productId})
+        let data=await Product.findById({productId})
         res.status(200).send(data) 
     } catch (error) {
         res.status(500).send({ message: "Error retrieving product by ID", error: error.message })

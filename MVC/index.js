@@ -8,6 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use("/uploads",express.static(path.join(__dirname,"uploads")));
+
 app.get("/",(req, res) => {
     res.sendFile(path.join(__dirname, 'view/form.html'));
 })
@@ -16,6 +18,6 @@ app.use("/product",ProductRouter)
 
 const port=process.env.PORT ||5050
 app.listen(port,()=>{
-    console.log(`App running at http://localhost:5000`);
+    console.log(`App running at http://localhost:${port}`);
     dbconnect()
 })
