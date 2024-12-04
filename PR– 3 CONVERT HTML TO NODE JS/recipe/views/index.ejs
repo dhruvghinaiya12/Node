@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe List</title>
+    <style>
+        .recipe-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .recipe-card img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Recipe List</h1>
+    <div id="parent"></div>
+
+    <script>
+        const fetchRecipes = async () => {
+            try {
+                const response = await fetch('/recipe/all');
+                const recipes = await response.json();
+                const parentDiv = document.getElementById('parent');
+                
+                recipes.forEach(recipe => {
+                    const recipeDiv = document.createElement('div');
+                    recipeDiv.classList.add('recipe-card');
+
+                    recipeDiv.innerHTML = `
+                        <h2>${recipe.name}</h2>
+                        <img src="${recipe.imageUrl}" alt="${recipe.name}" />
+                        <p><strong>Description:</strong> ${recipe.description}</p>
+                        <p><strong>Preparation Time:</strong> ${recipe.preparationTime}</p>
+                        <p><strong>Cooking Time:</strong> ${recipe.cookingTime}</p>
+                        <p><strong>Country:</strong> ${recipe.country}</p>
+                        <p><strong>Vegetarian:</strong> ${recipe.veg ? 'Yes' : 'No'}</p>
+                    `;
+                    
+                    parentDiv.append(recipeDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+            }
+        };
+
+        fetchRecipes();
+    </script>
+
+</body>
+</html>

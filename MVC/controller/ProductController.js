@@ -4,7 +4,8 @@ const Product = require("../model/ProductModel")
 const CreateProduct=async(req,res)=>{
     console.log("request",req.file);
     if(req.file){
-        req.body.image=req.file.path;
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        req.body.image = `${baseUrl}/uploads/${req.file.filename}`;
     }
     
     try {
