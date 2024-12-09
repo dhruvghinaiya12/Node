@@ -1,0 +1,25 @@
+const { Router } = require("express");
+const {
+  getUser,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+  getSignupPage,
+  getLoginPage,
+  loginUser,
+} = require("../controller/userController");
+
+const userRouter = Router();
+
+userRouter.get("/signup",getSignupPage)
+userRouter.get("/login",getLoginPage)
+userRouter.get("/", getUser);
+userRouter.post("/", createUser);
+userRouter.get("/:userId", getUserById);
+userRouter.patch("/:userId", updateUser);
+userRouter.delete("/:userId", deleteUser);
+userRouter.post("/login",loginUser)
+
+
+module.exports = userRouter;
