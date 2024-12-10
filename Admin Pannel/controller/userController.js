@@ -70,7 +70,9 @@ if(!Exist){
 if(Exist.password!==password){
     return res.send({message:"Incorrect password"})
 }
-res.send({message:"User logged in successfully"})
+res.cookie("username",Exist.username)
+// res.send({message:"User logged in successfully"})
+res.redirect("http://localhost:5000/")
     }
     catch(error){
         res.status(500).json({ message: "Error logging in user", error: error.message })
@@ -82,7 +84,9 @@ const getSignupPage=(req,res)=>{
 }
 
 const getLoginPage=(req,res)=>{
-    res.render("login")
+    res.render("login",{
+        title:"Login",
+    })
 }
 
 module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser}
