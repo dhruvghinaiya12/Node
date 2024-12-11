@@ -5,6 +5,7 @@ const path = require("path");
 const db = require("./config/db");
 const userRouter = require("./routes/userRoute");
 const IsLogin = require("./middleware/CheckLogin");
+const productRouter = require("./routes/productRoute");
 
 const app = express();
 const port = process.env.PORT || 5050;
@@ -25,6 +26,7 @@ app.get("/",IsLogin,(req,res)=>{
   res.render("index", {username});
 })
 app.use("/user",userRouter)
+app.use("/products",productRouter)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

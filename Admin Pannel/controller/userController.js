@@ -71,6 +71,7 @@ if(Exist.password!==password){
     return res.send({message:"Incorrect password"})
 }
 res.cookie("username",Exist.username)
+res.cookie("userId",Exist.id)
 // res.send({message:"User logged in successfully"})
 res.redirect("http://localhost:5000/")
     }

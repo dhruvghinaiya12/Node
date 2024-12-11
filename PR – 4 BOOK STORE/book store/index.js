@@ -8,7 +8,7 @@ app.use(express.json());
 
 
 const db=async()=>{
-    mongoose.connect("mongodb+srv://node:node-pr4@cluster0.y8xpr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+    mongoose.connect("mongodb://localhost:27017/book_store");
     console.log('Connected to MongoDB Atlas');
 }  
 
