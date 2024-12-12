@@ -1,6 +1,9 @@
 const User = require("../model/UserModel")
 
 const createUser=async(req,res)=>{
+    if (req.file) {
+        req.body.img = `uploads/${req.file.filename}`; 
+    }  
     try {
         let {email}=req.body
         let Exist = await User.findOne({ email: email });
@@ -38,9 +41,10 @@ if(Exist.password!==password){
 }
 res.cookie("username",Exist.username)
 res.cookie("email",Exist.email)
+ res.cookie("img",Exist.img)
  res.cookie("userId",Exist.id)
 // res.send({message:"User logged in successfully"})
-res.redirect("http://localhost:5500/")
+res.redirect("/")
 
 
     }

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="/form.css">
+ 
 </head>
 <body>
-    <form action="/user" method="post">
+    <form action="/user" method="post" enctype="multipart/form-data">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         
@@ -15,9 +17,9 @@
         
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-<!--         
+        
         <label for="image">Upload Image:</label>
-        <input type="file" id="image" name="img" required> -->
+        <input type="file" id="image" name="img" required>
         
         <button type="submit">Submit</button>
     </form>
