@@ -1,13 +1,17 @@
 const User = require("../model/userModel")
+const bcrypt = require('bcrypt');
+
 
 const createUser=async(req,res)=>{
     try {
-        let {email}=req.body
+        let {email,password}=req.body
         let Exist = await User.findOne({ email: email });
         if(Exist){
             return res.send({ message: "User already exists" });
         }
         else{
+            let hash=await bcrypt.hash(password,10)
+            req.body.password=hash;
             let user=await User.create(req.body)
             res.status(201).json(user)
         } 
@@ -67,13 +71,16 @@ if(!Exist){
     return res.send({message:"User not found"})
 }
 
-if(Exist.password!==password){
+const checkPassword=await bcrypt.compare(password,Exist.password)
+
+if(!checkPassword){
     return res.send({message:"Incorrect password"})
 }
+
 res.cookie("username",Exist.username)
 res.cookie("userId",Exist.id)
 // res.send({message:"User logged in successfully"})
-res.redirect("http://localhost:5000/")
+res.redirect("/")
     }
     catch(error){
         res.status(500).json({ message: "Error logging in user", error: error.message })
