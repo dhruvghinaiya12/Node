@@ -9,6 +9,7 @@ const {
   getLoginPage,
   loginUser,
 } = require("../controller/userController");
+const passport = require("passport");
 
 const userRouter = Router();
 
@@ -19,7 +20,9 @@ userRouter.post("/", createUser);
 userRouter.get("/:userId", getUserById);
 userRouter.patch("/:userId", updateUser);
 userRouter.delete("/:userId", deleteUser);
-userRouter.post("/login",loginUser)
+userRouter.post("/login",passport.authenticate("local"),(req,res)=>{
+  res.send("login success")
+})
 
 
 module.exports = userRouter;
