@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/blog">Home</a></li>
+        <li><a href="/user/signup">Signup</a></li>
+        <li><a href="/user/login">Login</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div id="parent-box"></div>
+    </div>
+    
+    <script>
+      const fetchBlogs = async () => {
+        try {
+          const response = await fetch("/blog/blogs");
+          const blogs = await response.json();
+    
+          const parentBox = document.getElementById("parent-box");
+          parentBox.innerHTML = "";
+    
+          blogs.forEach((blog) => {
+            parentBox.innerHTML += `
+              <div class="list">
+                <img class="img" src="${blog.img}" alt="${blog.title}" />
+                <p class="title">${blog.title}</p>
+                <a href="/blog/singleBlog/${blog._id}">Read More</a>
+              </div>
+            `;
+          });
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+    
+      fetchBlogs();
+        </script>
+</html>
