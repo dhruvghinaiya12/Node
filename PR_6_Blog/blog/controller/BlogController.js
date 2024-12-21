@@ -53,7 +53,7 @@ const EditBlog=async(req,res)=>{
     }
 }
 
-const SingleBlog = async (req, res) => {
+const SingleBlog = async(req, res) =>{
     try {
       const { id } = req.params;
       const singleBlog = await Blog.findById(id);
@@ -65,10 +65,10 @@ const SingleBlog = async (req, res) => {
     } catch (error) {
       res.status(500).send("An error occurred while retrieving the blog.");
     }
-  };
+}
   
 
-const searchBlogs = async (req, res) => {
+const searchBlogs = async(req, res) =>{
     try {
       const query = req.query.blogs; 
       if (!query) {
@@ -90,9 +90,60 @@ const searchBlogs = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: "An error occurred during search", error: error.message });
     }
-  };
+}
     
+const likeBlog = async(req, res) =>{
+    try {
+      const { id } = req.params;
+      const username = "Tester";
+      console.log(req.cookies);
+      if (!username) {
+        return res.send("User not logged in.");
+      }
+  
+      const blog = await Blog.findById(id);
+      blog.likedBy.push({ username });
+      await blog.save();
+  
+      res.status(200).json({ likedBy: blog.likedBy });
+    } catch (error) {
+      res.status(500).json({
+        message: "An error occurred while liking the blog",
+        error: error.message,
+      });
+    }
+}
+  
 
-module.exports = { BlogPage, BlogPostForm, BlogPost, getAllBlogs, deleteBlog, EditBlog, SingleBlog,searchBlogs };
+const addCommentToBlog = async(req, res) =>{
+  try {
+      const { id } = req.params; 
+      const { text } = req.body; 
+      const username = "Testing"; 
+      console.log(req.cookies);
+    
+      const blog = await Blog.findById(id);
+
+      if (!blog) {
+          return res.status(404).send("Blog not found.");
+      }
+
+      blog.comments.push({ username, text });
+      await blog.save();
+
+      res.status(200).json(blog); 
+  } catch (error) {
+      res.status(500).json({
+          message: "An error occurred while adding the comment.",
+          error: error.message,
+      });
+  }
+}
+
+  
+  
+  
+
+module.exports = { BlogPage, BlogPostForm, BlogPost, getAllBlogs, deleteBlog, EditBlog, SingleBlog,searchBlogs,likeBlog,addCommentToBlog};
 
 

@@ -11,7 +11,7 @@ const getLoginPage=(req,res)=>{
 const SignUpUser=async(req,res)=>{
     try {
         const user = await User.create(req.body);
-        console.log(req.body,user);
+        // console.log(req.body,user);
         
         res.cookie("role", user.role);
         res.cookie("id", user.id);
@@ -38,7 +38,9 @@ const loginUser=async(req,res)=>{
         res.cookie("role", Exist.role);
         res.cookie("id", Exist.id);
         res.cookie("username", Exist.username);
+        console.log("Cookies set in response:", res.getHeaders());
         res.send(`Welcome User ${Exist.username}`);
+        
     }
      catch (error) {
         res.status(500).send("An error occurred while processing your request.");

@@ -1,5 +1,5 @@
 const {Router}=require("express");
-const { BlogPostForm, BlogPage, BlogPost, getAllBlogs, deleteBlog, EditBlog, SingleBlog, searchBlogs } = require("../controller/BlogController");
+const { BlogPostForm, BlogPage, BlogPost, getAllBlogs, deleteBlog, EditBlog, SingleBlog, searchBlogs, likeBlog, addCommentToBlog } = require("../controller/BlogController");
 const checkRole = require("../middleware/Authorization");
 
 const BlogRouter=Router();
@@ -12,6 +12,7 @@ BlogRouter.get("/search", searchBlogs);
 BlogRouter.delete("/delete/:id",checkRole,deleteBlog)
 BlogRouter.patch("/edit/:id",checkRole,EditBlog)
 BlogRouter.get("/singleBlog/:id", SingleBlog);
-
+BlogRouter.patch("/like/:id",likeBlog);
+BlogRouter.patch("/comment/:id", addCommentToBlog);
 
 module.exports=BlogRouter;
