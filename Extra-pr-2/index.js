@@ -1,19 +1,16 @@
 const express = require("express");
-const cookieParser = require('cookie-parser')
 
 const path = require("path");
-const db = require("./config/db");
-const userRouter = require("./routes/userRoute");
-const IsLogin = require("./middleware/CheckLogin");
-const productRouter = require("./routes/productRoute");
 const passport = require("passport");
 const session = require("express-session");
+const userRouter = require("./routes/UserRoute");
+const db = require("./config/db");
 const Authentication = require("./middleware/Authentication");
 
 const app = express();
-const port = process.env.PORT || 5050;
+const port = process.env.PORT || 5151;
 
-app.use(cookieParser())
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -28,13 +25,11 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-
-app.get("/",IsLogin,(req,res)=>{
-  res.render("index", {username: req.user.username});
-})
 app.use("/user",userRouter)
-app.use("/products",productRouter)
 
+app.get("/",(req,res)=>{
+ res.render("index")
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

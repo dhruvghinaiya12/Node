@@ -1,6 +1,6 @@
 const IsLogin=(req,res,next)=>{
-   let {username,userId}=req.cookies
-   if(username&&userId){
+ 
+   if(req.user){
        next()
    }else{
        res.redirect('/user/login')

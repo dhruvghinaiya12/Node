@@ -4,12 +4,6 @@ const userSchema=new mongoose.Schema({
     username:String,
     email:String,
     password:String,
-    img:String,
-    role:{type:String,
-        enum:["User","Admin","SuperAdmin"],
-        default:"User"
-    },
-    verified:{type:Boolean, default:false}
 })
 
 const User=mongoose.model("User",userSchema)

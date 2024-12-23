@@ -87,6 +87,16 @@ res.redirect("/")
     }
 }
 
+const getAdmins=async(req,res)=>{
+    try{
+        let admins=await User.find({role:"Admin",verified:false})
+        res.status(200).send(admins)
+    }
+    catch(error){
+        res.status(500).json({ message: "Error retrieving admins", error: error.message })
+    }
+}
+
 const getSignupPage=(req,res)=>{
     res.render("signup")
 }
@@ -97,4 +107,4 @@ const getLoginPage=(req,res)=>{
     })
 }
 
-module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser}
+module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins}
