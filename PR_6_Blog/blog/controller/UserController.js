@@ -16,6 +16,7 @@ const SignUpUser=async(req,res)=>{
         res.cookie("role", user.role);
         res.cookie("id", user.id);
         res.cookie("username", user.username);
+        
 
         res.send(`Account created successfully ${user.username}`);
     } catch (error) {

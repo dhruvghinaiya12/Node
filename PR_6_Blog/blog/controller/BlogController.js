@@ -1,5 +1,6 @@
 const Blog = require("../model/BlogSchema")
 const Fuse = require("fuse.js");
+const User = require("../model/UserSchema");
 
 
 const BlogPage=(req,res)=>{
@@ -94,15 +95,16 @@ const searchBlogs = async(req, res) =>{
     
 const likeBlog = async(req, res) =>{
     try {
-      const { id } = req.params;
-      const username = "Tester";
-      console.log(req.cookies);
+      const blogid = req.params.id;
+      const {id}=req.cookies
+      const user=await User.findById(id); 
+      const username = user.username;
       if (!username) {
         return res.send("User not logged in.");
       }
   
-      const blog = await Blog.findById(id);
-      blog.likedBy.push({ username });
+      const blog = await Blog.findById(blogid);
+      blog.likedBy.push({ username:username });
       await blog.save();
   
       res.status(200).json({ likedBy: blog.likedBy });
@@ -117,18 +119,22 @@ const likeBlog = async(req, res) =>{
 
 const addCommentToBlog = async(req, res) =>{
   try {
-      const { id } = req.params; 
+      const blogid = req.params.id; 
       const { text } = req.body; 
-      const username = "Testing"; 
-      console.log(req.cookies);
+
+      const {id}=req.cookies
+      const user=await User.findById(id);
+      
+      const username = user.username;
     
-      const blog = await Blog.findById(id);
+      const blog = await Blog.findById(blogid);
+      
 
       if (!blog) {
           return res.status(404).send("Blog not found.");
       }
 
-      blog.comments.push({ username, text });
+      blog.comments.push({ username:username, text });
       await blog.save();
 
       res.status(200).json(blog); 
