@@ -1,5 +1,6 @@
 const User = require("../model/userModel")
 const bcrypt = require('bcrypt');
+const sendEmail = require("../service/Mail");
 
 
 const createUser=async(req,res)=>{
@@ -107,4 +108,13 @@ const getLoginPage=(req,res)=>{
     })
 }
 
-module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins}
+
+// send mail
+
+const sendMail=async(req,res)=>{
+    const{to,subject,content}=req.body
+    await sendEmail(to,subject,content);
+    res.send({message:"Email sent successfully " + to})
+}
+
+module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins,sendMail}

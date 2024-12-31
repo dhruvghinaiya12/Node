@@ -7,8 +7,8 @@ const {
   deleteUser,
   getSignupPage,
   getLoginPage,
-  loginUser,
   getAdmins,
+  sendMail,
 } = require("../controller/userController");
 const passport = require("passport");
 
@@ -27,6 +27,7 @@ userRouter.post("/login",passport.authenticate("local"),(req,res)=>{
   // res.send("login success")
   res.redirect("/")
 })
+userRouter.post("/mail",sendMail)
 
 
 module.exports = userRouter;
