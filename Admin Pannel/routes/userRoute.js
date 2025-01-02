@@ -9,6 +9,7 @@ const {
   getLoginPage,
   getAdmins,
   sendMail,
+  sendOTP,
 } = require("../controller/userController");
 const passport = require("passport");
 
@@ -28,6 +29,7 @@ userRouter.post("/login",passport.authenticate("local"),(req,res)=>{
   res.redirect("/")
 })
 userRouter.post("/mail",sendMail)
+userRouter.post("/sendotp",sendOTP)
 
 
 module.exports = userRouter;

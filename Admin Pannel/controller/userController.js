@@ -117,4 +117,20 @@ const sendMail=async(req,res)=>{
     res.send({message:"Email sent successfully " + to})
 }
 
-module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins,sendMail}
+// otp send mail
+
+const sendOTP=async(req,res)=>{
+    const{email}=req.body
+    console.log(req.body,email);
+    
+    let isExist=await User.findOne({email:email});
+    if(!isExist){
+        return res.send({message:"User not found"})
+    }
+    let otp=Math.round(1000 + Math.random() * 8999);
+    let html=`<h1>OTP:${otp}</h1>`
+    await sendEmail(email,"OTP Verification",html);
+    res.send("otp sent successfully");
+}
+
+module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins,sendMail,sendOTP}
