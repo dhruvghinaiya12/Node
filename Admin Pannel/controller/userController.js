@@ -108,7 +108,6 @@ const getLoginPage=(req,res)=>{
     })
 }
 
-
 // send mail
 
 const sendMail=async(req,res)=>{
@@ -118,6 +117,7 @@ const sendMail=async(req,res)=>{
 }
 
 // otp send mail
+let otps=new Map()
 
 const sendOTP=async(req,res)=>{
     const{email}=req.body
@@ -128,9 +128,25 @@ const sendOTP=async(req,res)=>{
         return res.send({message:"User not found"})
     }
     let otp=Math.round(1000 + Math.random() * 8999);
+    otps.set(otp,email)
     let html=`<h1>OTP:${otp}</h1>`
     await sendEmail(email,"OTP Verification",html);
     res.send("otp sent successfully");
 }
 
-module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins,sendMail,sendOTP}
+const CheckOtp=async(req,res)=>{
+let {otp,password}=req.body
+let data=otps.get(Number(otp))
+if(!data){
+    return res.send({message:"Invalid OTP"})
+}
+let user=await User.findOne({email:data})
+let hashedPassword = await bcrypt.hash(password, 10);
+
+user.password = hashedPassword;
+await user.save()
+// res.send("password reset successfully")
+res.redirect("/user/login")
+}
+
+module.exports={createUser,getUser,getUserById,updateUser,deleteUser,getSignupPage,getLoginPage,loginUser,getAdmins,sendMail,sendOTP,CheckOtp}

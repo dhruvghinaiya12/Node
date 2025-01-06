@@ -10,10 +10,14 @@ const {
   getAdmins,
   sendMail,
   sendOTP,
+  CheckOtp,
 } = require("../controller/userController");
 const passport = require("passport");
 
 const userRouter = Router();
+userRouter.get("/resetpassword", (req, res) => {
+  res.render("ResetPassword");
+});
 
 userRouter.get("/signup",getSignupPage)
 userRouter.get("/login",getLoginPage)
@@ -30,6 +34,7 @@ userRouter.post("/login",passport.authenticate("local"),(req,res)=>{
 })
 userRouter.post("/mail",sendMail)
 userRouter.post("/sendotp",sendOTP)
+userRouter.post("/resetpassword",CheckOtp)
 
 
 module.exports = userRouter;
