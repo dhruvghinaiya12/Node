@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
 const QueAns = require('./QuestionSchema');
 
- const QueAnsSchema=new mongoose.Schema({
+ const ExamSchema=new mongoose.Schema({
 
    questionId:{type:mongoose.Schema.Types.ObjectId,ref:QueAns},
-   Timeduration:Date.now(),
-
+   title: String, 
+   marks:Number,
+   startingTime: String,
+   endingTime: String,
  })
  
- const Exam=mongoose.model('QueAns',QueAnsSchema)
+ const Exam=mongoose.model('Exam',ExamSchema)
 
  module.exports=Exam;
  

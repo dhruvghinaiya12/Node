@@ -56,10 +56,11 @@ exports.Login=async(req,res)=>{
       id:user.id,
       email:user.email,
       username:user.username,
+      role:user.role,
     },
     process.env.SECRET_KEY   
     )   
-    console.log(token, user);
+    // console.log(token, user);
  
     res.send({ user, token} );  
 
