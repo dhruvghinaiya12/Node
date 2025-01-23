@@ -12,8 +12,9 @@ exports.GetFoodById=async(req,res)=>{
 }
 
 exports.GetAllFood=async(req,res)=>{
-    let food=await Food.find()
+    let food=await Food.find().populate("UserId")
     res.send(food)
+    
 }
 
 exports.UpdateFoodById=async(req,res)=>{

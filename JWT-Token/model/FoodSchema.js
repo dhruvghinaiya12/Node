@@ -6,7 +6,7 @@ const foodSchema=new mongoose.Schema({
  price:Number,
  img:String,
  category:String,
- UserId:{type:mongoose.Schema.Types.ObjectId,ref:User}
+ UserId:{type:mongoose.Schema.Types.ObjectId,ref:User ,required:true}
 
 })
 
