@@ -11,7 +11,11 @@ const CheckToken = async (req, res, next) => {
 
         let DecodedToken = await jwt.verify(token, process.env.SECRET_KEY);
         req.user = DecodedToken;
-        console.log(DecodedToken);     
+        console.log(DecodedToken);
+        if (req.user.role !== "Admin") {
+            return res.status(403).json({ message: "Only Admin can create Teacher or Student accounts" });
+          }
+           
      next();
     } catch (error) {
         console.error("Token verification error:", error);
