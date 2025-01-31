@@ -13,7 +13,7 @@ exports.UpdateUser=async(id,data)=>{
 }
 
 exports.DeleteUser=async(id)=>{
-    return await User.findByIdAndDelete(id);
+    return await User.findByIdAndUpdate(id,{isActive:false},{new:true});
 }
 
 exports.GetAllUsers=async()=>{

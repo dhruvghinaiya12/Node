@@ -17,5 +17,5 @@ let hash=await bcrypt.hash(password,10);
 }
 
 exports.ComparePassword=async(hash,password)=>{
-   return await bcrypt.compare(hash,password)
+   return await bcrypt.compare(password, hash);
 }
