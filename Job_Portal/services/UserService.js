@@ -1,5 +1,6 @@
 const userRepository = require("../repository/UserRepo");
 const { HashPassword, Token, ComparePassword } = require("../utils/helper");
+const UserDetailsService=require("../services/UserDetailsService")
 
 exports.CreateUser = async (data) => {
   let user = await userRepository.GetUserByEmail(data.email);
@@ -60,10 +61,11 @@ exports.deleteUser = async (id, data) => {
 
 exports.getAllUserById = async (id) => {
   let user = await userRepository.GetUserById(id);
+  let userDetails=await UserDetailsService.GetUserDetails(id)
   if (!user) {
     throw new Error("User not found");
   }
-  return user;
+  return {user,userDetails};
 };
 
 exports.getAllUsers = async () => {

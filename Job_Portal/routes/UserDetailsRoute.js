@@ -2,7 +2,7 @@ const {Router}=require("express")
 const userDetailsController=require("../controller/UserDetailsController")
 const UserDetailsRoutes=Router();
 
-UserDetailsRoutes.post("/login",userDetailsController.CreateNewUserDetails)
+UserDetailsRoutes.post("/",userDetailsController.CreateNewUserDetails)
 UserDetailsRoutes.get("/user/:userId",userDetailsController.getUserDetailsByUserId)
 UserDetailsRoutes.patch("/:id",userDetailsController.updateDetails)
 

@@ -12,6 +12,8 @@ exports.getUserDetailsByUserId = async (req, res) => {
   
 exports.CreateNewUserDetails = async (req, res) => {
   try {
+    let userid = req.user.id;
+    req.body.user = userid;
     let userDetails = await userDetailService.CreateUserDetails(req.body);
     res.send(userDetails);
   } catch (error) {

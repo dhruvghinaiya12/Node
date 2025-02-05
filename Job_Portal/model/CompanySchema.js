@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CompanyProfile=new mongoose.model({
+const CompanyProfile=new mongoose.Schema({
     companyName: {
         type: String,
         required: true,
@@ -23,7 +23,7 @@ const CompanyProfile=new mongoose.model({
         default: false,
       },
 },{
-    timestamps:true,
+  timestamps: true,
 })
 
 const Company=mongoose.model("Company",CompanyProfile)

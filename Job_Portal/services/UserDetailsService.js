@@ -10,8 +10,6 @@ exports.GetUserDetails = async (userId) => {
 
 exports.CreateUserDetails = async (payload) => {
   try {
-    let userid = req.user.id;
-    payload.user = userid;
     return  await userDetailRepository.UserDetails(payload);
   } catch (error) {
     throw new Error("Couldn't create user")
