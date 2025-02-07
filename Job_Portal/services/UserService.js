@@ -1,7 +1,9 @@
 const userRepository = require("../repository/UserRepo");
 const { HashPassword, Token, ComparePassword } = require("../utils/helper");
-const UserDetailsService=require("../services/UserDetailsService")
+const UserDetailsService=require("../services/UserDetailsService");
+const sendMail = require("../utils/Mail"); 
 
+let map=new Map();
 exports.CreateUser = async (data) => {
   let user = await userRepository.GetUserByEmail(data.email);
   if (user) {
@@ -20,6 +22,10 @@ exports.CreateUser = async (data) => {
     gender: user.gender
   });
 
+let otp=Math.round(1000 + Math.random() * 8999);
+  map.set(otp,token)
+  let html=`<div> <a href=http://localhost:5000/api/v1/user/verify/${token}/${otp} > click to verify </a> </div>`
+  await sendMail(user.email,"Verification Email",html);
   return token;
 };
 

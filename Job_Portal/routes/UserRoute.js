@@ -1,5 +1,6 @@
 const {Router}=require("express")
-const usercontroller=require("../controller/UserController")
+const usercontroller=require("../controller/UserController");
+const Role = require("../middleware/CheckRole");
 const UserRoutes=Router();
 
 UserRoutes.post("/signup",usercontroller.SignUp)
@@ -8,15 +9,13 @@ UserRoutes.post("/login",usercontroller.Login)
 
 UserRoutes.get("/info/:id",usercontroller.GetUserById)
 
-UserRoutes.get("/Alluser",usercontroller.GetAllUsers)
+UserRoutes.get("/Alluser",Role(["Admin"]),usercontroller.GetAllUsers)
 
 UserRoutes.patch("/:id",usercontroller.Update)
 
 UserRoutes.delete("/:id",usercontroller.Delete)
 
-UserRoutes.get("/",usercontroller.UsersByQuery)
-
-
+UserRoutes.get("/",Role(["Admin"]),usercontroller.UsersByQuery)
 
 
 module.exports=UserRoutes;
