@@ -66,3 +66,14 @@ exports.UsersByQuery=async(req,res)=>{
     res.status(404).json({ message: "Error retrieving users", error: error.message })
   }
 }
+
+exports.VerifyEmail=async(req,res)=>{
+  let {token,otp}=req.params;
+  try{
+    let user=await userService.Email(token,otp)
+    return res.send({ message:"Verified Email" })
+  }
+  catch(error){
+    res.status(404).json({ message: "Error verifying email", error: error.message })
+  }
+}

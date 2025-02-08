@@ -1,9 +1,14 @@
 const userRepository = require("../repository/UserRepo");
-const { HashPassword, Token, ComparePassword } = require("../utils/helper");
-const UserDetailsService=require("../services/UserDetailsService");
-const sendMail = require("../utils/Mail"); 
+const {
+  HashPassword,
+  Token,
+  ComparePassword,
+  DecodeToken,
+} = require("../utils/helper");
+const UserDetailsService = require("../services/UserDetailsService");
+const sendMail = require("../utils/Mail");
 
-let map=new Map();
+let map = new Map();
 exports.CreateUser = async (data) => {
   let user = await userRepository.GetUserByEmail(data.email);
   if (user) {
@@ -19,14 +24,29 @@ exports.CreateUser = async (data) => {
     email: user.email,
     id: user.id,
     role: user.role,
-    gender: user.gender
+    gender: user.gender,
   });
 
-let otp=Math.round(1000 + Math.random() * 8999);
-  map.set(otp,token)
-  let html=`<div> <a href=http://localhost:5000/api/v1/user/verify/${token}/${otp} > click to verify </a> </div>`
-  await sendMail(user.email,"Verification Email",html);
+  let otp = Math.round(1000 + Math.random() * 8999);
+  map.set(token, otp);
+  let html = `<div> <a href=http://localhost:5000/api/v1/user/verify/${token}/${otp} > click to verify </a> </div>`;
+  await sendMail(user.email, "Verification Email", html);
   return token;
+};
+
+exports.Email = async (token, otp) => {
+  try {
+    let userOtp = map.get(token);
+    if (userOtp == otp) {
+      let user = await DecodeToken(token);
+      let updatedUser = await userRepository.UpdateUser(user.id, {isEmailVerified: true});
+      return updatedUser;
+    } else {
+      throw new Error("Invalid OTP");
+    }
+  } catch (error) {
+    throw new Error("Error in Email verification: " + error.message);
+  }
 };
 
 exports.LoginUser = async (data) => {
@@ -34,7 +54,7 @@ exports.LoginUser = async (data) => {
   if (!user) {
     throw new Error("User not found");
   }
-  let MatchPassword = await ComparePassword( user.password,data.password);
+  let MatchPassword = await ComparePassword(user.password, data.password);
   if (!MatchPassword) {
     throw new Error("Incorrect password");
   }
@@ -43,7 +63,7 @@ exports.LoginUser = async (data) => {
     email: user.email,
     id: user.id,
     role: user.role,
-    gender: user.gender
+    gender: user.gender,
   });
   return token;
 };
@@ -56,22 +76,21 @@ exports.UpdateUser = async (id, data) => {
   return await userRepository.UpdateUser(id, data);
 };
 
-
 exports.deleteUser = async (id, data) => {
   let user = await userRepository.GetUserById(id);
   if (!user) {
     throw new Error("User not found");
   }
   return await userRepository.DeleteUser(id);
-}
+};
 
 exports.getAllUserById = async (id) => {
   let user = await userRepository.GetUserById(id);
-  let userDetails=await UserDetailsService.GetUserDetails(id)
+  let userDetails = await UserDetailsService.GetUserDetails(id);
   if (!user) {
     throw new Error("User not found");
   }
-  return {user,userDetails};
+  return { user, userDetails };
 };
 
 exports.getAllUsers = async () => {

@@ -4,6 +4,11 @@ require("dotenv").config();
 const Token=async(req,res,next)=>{
     const PublicRoute=["/user/signup","/user/login"]
 
+    let url=req.url
+    if(url.includes("/user/verify")){
+        return next();
+    }
+
     if(PublicRoute.includes(req.url)){
         return next();
     }

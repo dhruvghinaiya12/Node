@@ -3,8 +3,8 @@ const Company = require("../model/CompanySchema");
 exports.createCompany = async (payload) => {
   return await Company.create(payload);
 };
-exports.getAllCompany = async () => {
-  return await Company.find();
+exports.getAllCompany = async (query) => {
+  return await Company.find(query);
 };
 
 exports.getCompanyById = async (id) => {

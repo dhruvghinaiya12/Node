@@ -17,5 +17,7 @@ UserRoutes.delete("/:id",usercontroller.Delete)
 
 UserRoutes.get("/",Role(["Admin"]),usercontroller.UsersByQuery)
 
+UserRoutes.get("/verify/:token/:otp", usercontroller.VerifyEmail);
+
 
 module.exports=UserRoutes;

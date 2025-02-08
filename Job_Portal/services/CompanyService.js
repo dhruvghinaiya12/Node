@@ -39,3 +39,8 @@ exports.deleteCompany = async (id) => {
     throw new Error("Error deleting company: " + error.message);
   }
 };
+
+exports.getAllunverified=async()=>{
+  let company=await companyRepository.getAllCompany({isVerified:false})
+  return company
+}
