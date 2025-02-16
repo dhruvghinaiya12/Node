@@ -36,13 +36,26 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     signup();
-    setUserData({ name: "", img: "", email: "", gender: "", number: "", password: "", role: "Candidate" });
+    setUserData({
+      name: "",
+      img: "",
+      email: "",
+      gender: "",
+      number: "",
+      password: "",
+      role: "Candidate",
+    });
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-8 pb-8">
-      <form className="w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Sign Up</h2>
+      <form
+        className="w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">
+          Sign Up
+        </h2>
 
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-1">Name</label>
@@ -69,7 +82,9 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-1">Password</label>
+          <label className="block text-gray-700 font-medium mb-1">
+            Password
+          </label>
           <input
             type="password"
             name="password"
@@ -108,7 +123,9 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-1">Profile Image URL</label>
+          <label className="block text-gray-700 font-medium mb-1">
+            Profile Image URL
+          </label>
           <input
             type="file"
             name="img"
@@ -132,7 +149,10 @@ const Signup = () => {
           </select>
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500"
+        >
           Sign Up
         </button>
       </form>

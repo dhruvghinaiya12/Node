@@ -39,7 +39,7 @@ exports.Email = async (token, otp) => {
     let userOtp = map.get(token);
     if (userOtp == otp) {
       let user = await DecodeToken(token);
-      let updatedUser = await userRepository.UpdateUser(user.id, {isEmailVerified: true});
+      let updatedUser = await userRepository.UpdateUser(user.id, {isVerified: true});
       return updatedUser;
     } else {
       throw new Error("Invalid OTP");
