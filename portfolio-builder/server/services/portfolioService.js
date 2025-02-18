@@ -4,6 +4,6 @@ exports.create = async (data) => {
   return await Portfolio.create(data);
 };
 
-exports.PortfolioByUserId = async (userId) => {
-    return await Portfolio.find({ user: userId })
-  };
+exports.PortfolioByUserId = async (userId) => {  
+  return await Portfolio.findOne({ userId: userId });
+};

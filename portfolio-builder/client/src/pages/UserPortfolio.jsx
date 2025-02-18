@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import ApiLink from "../config/API";
+import { UserToken } from "../UserToken";
 
 const UserPortfolio = () => {
-  const [portfolio, setPortfolio] = useState(null);
-  const userId = Cookies.get("userId");
+  const [portfolio, setPortfolio] = useState();
+  const userToken = UserToken();
+
+  const userId = userToken.id;
+
+  // console.log("User ID:", userId);
 
   const fetchPortfolio = async (userId) => {
     try {
       const res = await ApiLink.get(`/portfolio/${userId}`);
+      console.log("Fetched Portfolio Data:", res.data);
       setPortfolio(res.data);
     } catch (error) {
       console.error("Error fetching portfolio:", error);
@@ -16,11 +22,7 @@ const UserPortfolio = () => {
   };
 
   useEffect(() => {
-    if (userId) {
-      fetchPortfolio(userId); 
-    } else {
-      console.log("User is not logged in");
-    }
+    fetchPortfolio(userId);
   }, [userId]);
 
   return (
@@ -28,16 +30,39 @@ const UserPortfolio = () => {
       {portfolio ? (
         <div>
           <h2>Your Portfolio</h2>
-          <p>About Me: {portfolio.aboutMe}</p>
-          <p>Skills: {portfolio.skills}</p>
-          <p>Work Experience: {portfolio.workExperiences}</p>
-          <p>Education: {portfolio.education}</p>
-          <p>Projects: {portfolio.projects}</p>
-          <p>GitHub: {portfolio.socialLinks.github}</p>
-          <p>LinkedIn: {portfolio.socialLinks.linkedin}</p>
-          <p>Website: {portfolio.socialLinks.website}</p>
-          <p>Resume: {portfolio.resumeUrl}</p>
-          <p>Experience Level: {portfolio.experienceLevel}</p>
+          <ul>
+            <li>
+              <strong>About Me:</strong> {portfolio.aboutMe}
+            </li>
+            <li>
+              <strong>Skills:</strong> {portfolio.skills}
+            </li>
+            <li>
+              <strong>Work Experience:</strong> {portfolio.workExperiences}
+            </li>
+            <li>
+              <strong>Education:</strong> {portfolio.education}
+            </li>
+            <li>
+              <strong>Projects:</strong> {portfolio.projects}
+            </li>
+            <li>
+              <strong>GitHub:</strong> {portfolio.socialLinks.github}
+            </li>
+            <li>
+              <strong>LinkedIn:</strong> {portfolio.socialLinks.linkedin}
+            </li>
+            <li>
+              <strong>Website:</strong> {portfolio.socialLinks.website}
+            </li>
+            <li>
+              <strong>Resume:</strong>
+              <span>{portfolio.resumeUrl}</span>
+            </li>
+            <li>
+              <strong>Experience Level:</strong> {portfolio.experienceLevel}
+            </li>
+          </ul>
         </div>
       ) : (
         <p>Loading portfolio...</p>

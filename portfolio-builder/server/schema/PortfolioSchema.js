@@ -26,7 +26,7 @@ const projectSchema = new mongoose.Schema({
 
 const portfolioSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     aboutMe: { type: String, trim: true },
     skills: [{ type: String, trim: true }],
     workExperiences: [workExperienceSchema],

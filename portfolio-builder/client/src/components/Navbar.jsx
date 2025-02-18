@@ -8,7 +8,8 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-white text-xl font-semibold flex space-x-6">
             <Link to="/" className="hover:text-gray-400 transition-colors">Home</Link>
-            <Link to="/portfolio-form" className="text-white hover:text-gray-400 transition-colors">Portfolio Details</Link>
+            <Link to="/portfolio-form" className="text-white hover:text-gray-400 transition-colors">Create Portfolio </Link>
+            <Link to="/portfolio-details/:userId" className="text-white hover:text-gray-400 transition-colors">Portfolio </Link>
           </div>
 
           <div className="space-x-6">
