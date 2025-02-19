@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { put } from "@vercel/blob";
 import ApiLink from "../config/API";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -19,13 +20,30 @@ const Signup = () => {
     const { name, value } = e.target;
     setUserData({ ...userdata, [name]: value });
   };
-
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    try {
+      const { url } = await put(file.name, file, {
+        access: "public",
+        token: "vercel_blob_rw_5fhPjJof3FeC7W2N_NIdVrcg36Xm6qXZ2tNgfGxTofmlvth", 
+      });
+  
+      setUserData({ ...userdata, img: url }); 
+      alert("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      alert("Image upload failed. Please try again.");
+    }
+  };
+  
   const signup = async () => {
     try {
       const res = await ApiLink.post("/user/signup", userdata);
-      const { user, token } = res.data;
-      console.log(user, token);
-      Cookies.set("token", token, { expires: 2 });
+      const { user} = res.data;
+      console.log(user);
+      Cookies.set("token",user,{expires:2})
       alert("Signup successful");
       nav("/login");
     } catch (error) {
@@ -49,13 +67,8 @@ const Signup = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-8 pb-8">
-      <form
-        className="w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6"
-        onSubmit={handleSubmit}
-      >
-        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">
-          Sign Up
-        </h2>
+      <form className="w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-6" onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Sign Up</h2>
 
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-1">Name</label>
@@ -82,9 +95,7 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-1">
-            Password
-          </label>
+          <label className="block text-gray-700 font-medium mb-1">Password</label>
           <input
             type="password"
             name="password"
@@ -123,17 +134,15 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-1">
-            Profile Image URL
-          </label>
+          <label className="block text-gray-700 font-medium mb-1">Profile Image</label>
           <input
             type="file"
-            name="img"
-            value={userdata.img}
-            onChange={handleInput}
+            accept="image/*"
+            onChange={handleImageUpload}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
           />
         </div>
+
 
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-1">Role</label>
@@ -149,10 +158,7 @@ const Signup = () => {
           </select>
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500"
-        >
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500">
           Sign Up
         </button>
       </form>
