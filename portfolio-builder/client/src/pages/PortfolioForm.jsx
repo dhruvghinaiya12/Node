@@ -26,16 +26,7 @@ const PortfolioForm = () => {
     });
   };
 
-  const HandleInputlinks = (e) => {
-    const { name, value } = e.target;
-    setPortfolioData({
-      ...portfolioData,
-      socialLinks: {
-        ...portfolioData.socialLinks,
-        [name]: value,
-      },
-    });
-  };
+
 
   const postdata = async () => {
     try {
@@ -156,7 +147,7 @@ const PortfolioForm = () => {
               type="url"
               name="github"
               value={portfolioData.socialLinks.github}
-              onChange={HandleInputlinks}
+              onChange={HandleInput}
               id="github"
               placeholder="GitHub profile URL"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -174,7 +165,7 @@ const PortfolioForm = () => {
               type="url"
               name="linkedin"
               value={portfolioData.socialLinks.linkedin}
-              onChange={HandleInputlinks}
+              onChange={HandleInput}
               id="linkedin"
               placeholder="LinkedIn profile URL"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -192,7 +183,7 @@ const PortfolioForm = () => {
               type="url"
               name="website"
               value={portfolioData.socialLinks.website}
-              onChange={HandleInputlinks}
+              onChange={HandleInput}
               id="website"
               placeholder="Personal website URL"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -26,7 +26,8 @@ const Login = () => {
       
       if (res.data.token) {
         Cookies.set("token", res.data.token, { expires: 2 });
-        Cookies.set("userId", res.data.userId, { expires: 2 });
+        console.log("user: ",res.data.user._id);
+        
         Cookies.set("isLogged", "true", { expires: 2 });
         alert("Login successful");
         nav("/");
