@@ -4,7 +4,7 @@ const company=require("../repository/CompanyRepo")
 exports.Create = async (data) => {
     try {
         const companyData = await company.getCompanyById(data.companyId);
-
+     
         if (companyData) {
             if (companyData.isVerified) {
                 return await Job.create(data);

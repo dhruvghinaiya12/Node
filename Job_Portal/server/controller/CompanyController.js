@@ -2,7 +2,12 @@ const companyService = require("../services/CompanyService");
 
 exports.createCompany = async (req, res) => {
   try {
-    const company = await companyService.createCompany(req.body);
+    const payload=req.body
+    let userId=req.user.id;
+    req.body.userId=userId;
+    const company = await companyService.createCompany(payload);
+    console.log(payload);
+    
     res.status(201).json(company);
   } catch (error) {
     res.status(500).json({ message: error.message });

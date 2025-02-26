@@ -44,3 +44,12 @@ exports.getAllunverified=async()=>{
   let company=await companyRepository.getAllCompany({isVerified:false})
   return company
 }
+
+
+exports.getCompanyByUserId = async (userId) => {
+  try {
+    return await companyRepository.getCompanyByUserId(userId);
+  } catch (error) {
+    throw new Error("Error fetching company by user ID: " + error.message);
+  }
+}

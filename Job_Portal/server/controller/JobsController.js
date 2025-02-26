@@ -1,8 +1,17 @@
 const jobService = require("../services/JobService");
-
+const CompanyService=require("../services/CompanyService")
 exports.createJob = async (req, res) => {
     try {
         req.body.userId=req.user.id;
+        console.log("User ID:", req.user?.id);
+
+        let company= await CompanyService.getCompanyByUserId(req.user.id);
+        console.log("Company found:", company);
+
+        if(!company){
+            return res.status(404).json({ message: "Company not found" });
+        }
+        req.body.companyId=company.id;
         const job = await jobService.Create(req.body);
         res.status(201).json(job);
     } catch (error) {

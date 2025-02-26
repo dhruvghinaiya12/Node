@@ -18,3 +18,7 @@ exports.updateCompany = async (id, payload) => {
 exports.deleteCompany = async (id) => {
   return await Company.findByIdAndDelete(id);
 };
+
+exports.getCompanyByUserId= async (userId) => {
+  return await Company.findOne({userId});
+}
