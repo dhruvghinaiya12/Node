@@ -6,6 +6,8 @@ import Login from '../pages/Login';
 import AddJob from '../pages/AddJob';
 import Company from '../pages/Company';
 import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/profile';
+import JobsDetails from '../pages/JobsDetails';
 
 
 
@@ -13,10 +15,12 @@ const AllRoutes = () => {
   return (
        <Routes>
         <Route path="/" element={<Home/>} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/jobs" element={<AddJob />} />
+        <Route path="/job/:id" element={<JobsDetails />} />
         <Route path="/company" element={<Company />} />
         {/* <Route path="*" element={<PageNotFound/>} /> */}
       </Routes>

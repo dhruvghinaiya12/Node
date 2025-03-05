@@ -1,7 +1,7 @@
-const express = require("express");
+const { Router } = require("express");
 const ApplicationController = require("../controller/ApplicationController");
 
-const ApplicationRoutes = express.ApplicationRoutes();
+const ApplicationRoutes = Router();
 
 ApplicationRoutes.get("/", ApplicationController.getAllApplications);
 ApplicationRoutes.post("/", ApplicationController.createApplication);
