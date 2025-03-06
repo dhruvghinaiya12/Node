@@ -8,6 +8,7 @@ import Company from '../pages/Company';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/profile';
 import JobsDetails from '../pages/JobsDetails';
+import UserDetails from '../pages/UserDetails';
 
 
 
@@ -22,6 +23,7 @@ const AllRoutes = () => {
         <Route path="/jobs" element={<AddJob />} />
         <Route path="/job/:id" element={<JobsDetails />} />
         <Route path="/company" element={<Company />} />
+        <Route path='/job/:jobId/user/:id' element={<UserDetails />} />
         {/* <Route path="*" element={<PageNotFound/>} /> */}
       </Routes>
     

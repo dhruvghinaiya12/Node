@@ -33,7 +33,11 @@ const ApplicationService = {
   getbyjobId: async (jobId) => {
     try {
       let job = await GetById(jobId);
-      let app = await Application.find({ job: jobId }).populate("userId");
+      // console.log(jobId);
+      
+      let app = await Application.find({ jobId: jobId }).populate("userId");
+      // console.log(app);
+      
       return {
         job,
         app,

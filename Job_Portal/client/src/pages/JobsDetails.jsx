@@ -1,46 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ApiLink from "../config/API";
+import JobDetailCard from "../components/JobDetailCard";
 
 const JobsDetails = () => {
-  const [job, setjob] = useState({});
-  const [applied, setapplied] = useState([]);
+  const [job, setJob] = useState({});
+  const [applied, setApplied] = useState([]);
+  let [show, setshow] = useState(false);
   const { id } = useParams();
+  const nav = useNavigate();
 
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    });
+  const ApplicationDetails = (app) => {
+    let temp = app.map((app) => ({
+      id: app._id,
+      name: app.userId.name,
+      img: app.userId.img,
+      userId: app.userId._id,
+      status: app.status,
+      createdAt: app.createdAt,
+    }));
+    setApplied(temp);
   };
 
-
-  const getApplications = async () => {
-    let res = await ApiLink.get(`/applications/job/${id}`);
-    const { data } = res;
-    console.log(data);
-    setjob(data.job);
-    setapplied(data.app);
+  const getJobDetails = async () => {
     try {
+      let res = await ApiLink.get(`/applications/job/${id}`);
+      setJob(res.data.job);
+      ApplicationDetails(res.data.app);
+      console.log(res.data.app);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching job details:", error);
     }
   };
 
   useEffect(() => {
-    getApplications();
+    getJobDetails();
   }, [id]);
 
-  console.log(job, applied);
-
   return (
-    <div>
-      <h1>job details</h1>
-      <h2>title: {job.title}</h2>
-      <p>description: {job.description}</p>
-      <h3>EndDate: {formatDate(job.endDate)}</h3>
-    </div>
+    <JobDetailCard
+      {...job}
+      applied={applied}
+      onBack={() => nav(-1)}
+      showApplicants={show}
+      onViewApplicants={() => setshow(!show)}
+      nav={nav}
+    />
   );
 };
 

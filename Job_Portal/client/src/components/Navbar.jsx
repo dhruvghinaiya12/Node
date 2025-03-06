@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer">
           <img src={jobPortalIcon} alt="Job Portal" className="h-8 w-8 mr-2" />
           <span className="text-xl font-bold">JobPortal</span>
         </div>
@@ -33,16 +33,16 @@ const Navbar = () => {
 
         <div className="flex items-center space-x-4">
           {user ? (
-            <span className="px-4 py-2 text-sm hover:text-gray-400 transition">{user.name}</span>
+            <span className="px-4 py-2 text-sm hover:text-gray-400 transition cursor-pointer">{user.name}</span>
           ) : (
-            <Link to="/signup" className="px-4 py-2 bg-blue-800 rounded-lg hover:bg-blue-700 transition">
+            <Link to="/signup" className="px-4 py-2 bg-blue-800 rounded-lg hover:bg-blue-700 transition ">
               Sign Up
             </Link>
           )}
 
           {isLogged ? (
             <button 
-              className="px-4 py-2 text-sm hover:text-gray-400 transition"
+              className="px-4 py-2 text-sm hover:text-gray-400 transition cursor-pointer"
               onClick={logout}
             >
               Logout
