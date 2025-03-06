@@ -1,6 +1,12 @@
 import React from "react";
 
-const UserDetailsCard = ({ user, userDetails }) => {
+const UserDetailsCard = ({
+  user,
+  userDetails,
+  status,
+  statusOptions,
+  HandleStatus,
+}) => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg border">
       <div className="flex flex-col md:flex-row items-center gap-6">
@@ -13,7 +19,26 @@ const UserDetailsCard = ({ user, userDetails }) => {
           <h1 className="text-2xl font-bold text-gray-800">{user.name}</h1>
           <p className="text-gray-600">{user.email}</p>
           <p className="text-gray-500">📞 {user.number}</p>
-          <p className="text-gray-500 capitalize">🔹 {user.gender} | {user.role}</p>
+          <p className="text-gray-500 capitalize">
+            🔹 {user.gender} | {user.role}
+          </p>
+
+          <div className="mt-4">
+            <label className="block text-gray-700 font-medium mb-1">
+              Application Status:
+            </label>
+            <select
+              className="border border-gray-300 rounded-lg px-3 py-2 w-full md:w-64 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              value={status}
+              onChange={HandleStatus}
+            >
+              {statusOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -49,7 +74,9 @@ const UserDetailsCard = ({ user, userDetails }) => {
       </div>
 
       <div className="mt-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Work Experience</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          Work Experience
+        </h2>
         <ul className="space-y-4">
           {userDetails.workExperiences.map((exp, index) => (
             <li key={index} className="p-4 border rounded-lg shadow-sm">

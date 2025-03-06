@@ -9,22 +9,25 @@ import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/profile';
 import JobsDetails from '../pages/JobsDetails';
 import UserDetails from '../pages/UserDetails';
+import PageNotFound from '../pages/PageNotFound';
+import Private from './Private';
+import { Role } from '../role/CheckRole';
 
 
 
 const AllRoutes = () => {
   return (
        <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Private><Home/></Private>} />
+        <Route path="/profile" element={<Private><Profile/></Private>} />
+        {Role(["Admin"])?(<Route path="/dashboard" element={<Private><Dashboard/></Private>} />):null}
+       {Role(["Admin","HR"])?( <Route path="/company" element={<Private><Company/></Private>} />):null}
+        {Role(["HR"])?(<Route path="/jobs" element={<Private><AddJob/></Private>} />):null}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/jobs" element={<AddJob />} />
         <Route path="/job/:id" element={<JobsDetails />} />
-        <Route path="/company" element={<Company />} />
         <Route path='/job/:jobId/user/:id' element={<UserDetails />} />
-        {/* <Route path="*" element={<PageNotFound/>} /> */}
+        <Route path="*" element={<PageNotFound/>} />
       </Routes>
     
   )

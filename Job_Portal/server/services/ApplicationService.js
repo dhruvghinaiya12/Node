@@ -25,7 +25,7 @@ const ApplicationService = {
   },
   getbyuserId: async (userId) => {
     try {
-      return await Application.find({ user: userId });
+      return await Application.find({ user: userId }).populate("jobId")
     } catch (error) {
       throw new Error(error);
     }

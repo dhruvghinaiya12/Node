@@ -23,7 +23,6 @@ const Home = () => {
   const ApplyJob = async (jobId) => {
     try {
       let res = await ApiLink.post("/applications", { jobId: jobId });
-      console.log(res.data);
       alert("Application submitted successfully!");
     } catch (error) {
       console.error("Error applying job:", error);

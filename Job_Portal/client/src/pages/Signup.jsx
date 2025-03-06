@@ -42,7 +42,6 @@ const Signup = () => {
     try {
       const res = await ApiLink.post("/user/signup", userdata);
       const { user} = res.data;
-      console.log(user);
       Cookies.set("token",user,{expires:2})
       alert("Signup successful");
       nav("/login");

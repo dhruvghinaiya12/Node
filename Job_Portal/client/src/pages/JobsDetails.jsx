@@ -27,7 +27,6 @@ const JobsDetails = () => {
       let res = await ApiLink.get(`/applications/job/${id}`);
       setJob(res.data.job);
       ApplicationDetails(res.data.app);
-      console.log(res.data.app);
     } catch (error) {
       console.log("Error fetching job details:", error);
     }

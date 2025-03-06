@@ -17,24 +17,36 @@ const AddJob = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const PostJobs=async()=>{
+  const PostJobs = async () => {
     try {
-      let res=await ApiLink.post("/jobs",formData)
-      console.log(res.data);
+      let res = await ApiLink.post("/jobs", formData);
       setFormData(res.data);
       alert("Job added successfully!");
     } catch (error) {
       console.error("Error creating job:", error);
     }
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let { requiredSkills } = formData;
-    
-    let updatedFormData = { ...formData, requiredSkills: requiredSkills.split(",") };
-    
+
+    let updatedFormData = { 
+      ...formData, requiredSkills: requiredSkills.split(","), 
+     };
+
     PostJobs(updatedFormData);
+
+    setFormData({
+      title: "",
+      jobType: "",
+      location: "",
+      salary: "",
+      requiredSkills: "",
+      description: "",
+      requiredExp: "",
+      endDate: "",
+    });
   };
 
   return (

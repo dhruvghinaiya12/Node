@@ -16,7 +16,6 @@ const Company = () => {
   const createCompany = async () => {
     try {
       let res = await ApiLink.post("/companies/create", company);
-      // console.log(res.data);
       setCompany(res.data);
       alert("Company created successfully!");
       setCompany({ companyName: "", location: "", number: "" });

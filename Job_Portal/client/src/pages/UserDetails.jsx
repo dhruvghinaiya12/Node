@@ -5,7 +5,9 @@ import UserDetailsCard from "../components/UserDetailsCard";
 
 const UserDetails = () => {
   const [userData, setUserData] = useState(null);
-  const { id } = useParams();
+  const { id, jobId } = useParams();
+  const [status, SetStatus] = useState("Applied");
+  const StatusOptions = ["Applied", "Shortlisted", "Rejected", "Hired"];
 
   const getUserDetails = async () => {
     try {
@@ -15,6 +17,21 @@ const UserDetails = () => {
       console.log(error);
     }
   };
+
+  const UpdateStatus = async (value) => {
+    try {
+      let res = await ApiLink.patch(`applications/${jobId}`, { status: value });
+
+      alert("Status updated successfully!");  
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const HandleStatus= async (e) => {
+    SetStatus(e.target.value)
+    UpdateStatus(e.target.value)
+  }
 
   useEffect(() => {
     getUserDetails();
@@ -26,7 +43,13 @@ const UserDetails = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <UserDetailsCard user={userData.user} userDetails={userData.userDetails} />
+      <UserDetailsCard
+        user={userData.user}
+        userDetails={userData.userDetails}
+        status={status}
+        statusOptions={StatusOptions}
+        HandleStatus={HandleStatus}
+      />
     </div>
   );
 };
