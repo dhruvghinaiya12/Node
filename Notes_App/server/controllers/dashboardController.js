@@ -81,7 +81,7 @@ exports.dashboardDeleteNote = async (req, res) => {
 };
 // redirect to add note page
 exports.dashboardAddNote = async (req, res) => {
-  res.render("dashboard/Add", {
+  res.render("dashboard/add", {
     layout: "../views/layouts/dashboard",
   });
 };
